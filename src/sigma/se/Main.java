@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static int a[][];
+    public static int b[][][];
+    public static HashSet<Integer> rowSet[] = new HashSet[9];
+    public static HashSet<Integer> columnSet[] = new HashSet[9];
+
+
 
 
     /**
@@ -76,31 +82,33 @@ public class Main {
         }
     }
 
+
+    public static boolean getSets() {
+        for (int i = 0; i < 9; i++) {
+            rowSet[i] = new HashSet<>();
+            columnSet[i] = new HashSet<>();
+        }
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++) {
+
+                if (!(rowSet[i].add(a[i][j])) || !(columnSet[j].add(a[j][i]))) {
+                    return false;
+                }
+
+            }
+        return true;
+    }
+
     public static void main(String[] args) {
-
-        int a[][];
-        int b[][][];
-        HashSet<Integer> s =new HashSet<>();
-        HashSet<Integer> setRow[] = new HashSet[9];
-        HashSet<Integer> setColumn[] = new HashSet[9];
-
         a = new int[9][9];
         b = new int[3][3][9];
 
-        a=readArray();
-        for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++) {
-              if !(setRow[i].add( a[i][j]) )
-                if ( a[i][j] == 0) {
 
-                }
-            }
-
-
-
-
-        b = transform(a);
-             print339(b);
+        a = readArray();
+        boolean t=getSets();
+        System.out.println(t);
+//        b = transform(a);
+//             print339(b);
     }
 
 
