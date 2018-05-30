@@ -1,6 +1,10 @@
 package sigma.se;
 
+import java.util.HashSet;
+import java.util.Scanner;
+
 public class Main {
+
 
 
     /**
@@ -45,24 +49,24 @@ public class Main {
             }
             System.out.println("...........");
         }
-
-
     }
 
-    public static void main(String[] args) {
 
-        int a[][];
-        int b[][][];
-        int k = 0;
-
-        a = new int[9][9];
-        b = new int[3][3][9];
-
-        for (int i = 0; i < 9; i++)
+    public static int[][] readArray() {
+        Scanner sc = new Scanner(System.in);
+        int a[][]=new int[9][9];
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                a[i][j] =   j;
+                a[i][j] = sc.nextInt();
             }
+            sc.nextLine();
+        }
+        return a;
+    }
 
+
+
+    public static void print99(int[][] a) {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -70,9 +74,35 @@ public class Main {
             }
             System.out.println();
         }
+    }
 
-        System.out.println(".......................................");
+    public static void main(String[] args) {
+
+        int a[][];
+        int b[][][];
+        HashSet<Integer> s =new HashSet<>();
+        HashSet<Integer> setRow[] = new HashSet[9];
+        HashSet<Integer> setColumn[] = new HashSet[9];
+
+        a = new int[9][9];
+        b = new int[3][3][9];
+
+        a=readArray();
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++) {
+              if !(setRow[i].add( a[i][j]) )
+                if ( a[i][j] == 0) {
+
+                }
+            }
+
+
+
+
         b = transform(a);
              print339(b);
     }
+
+
+
 }
