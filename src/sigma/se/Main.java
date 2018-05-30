@@ -84,19 +84,34 @@ public class Main {
 
 
     public static boolean getSets() {
+        boolean hasDuplicate = false;
         for (int i = 0; i < 9; i++) {
             rowSet[i] = new HashSet<>();
             columnSet[i] = new HashSet<>();
         }
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++) {
-
-                if (!(rowSet[i].add(a[i][j])) || !(columnSet[j].add(a[j][i]))) {
-                    return false;
-                }
+                if (a[i][j] != 0)
+                    if (!(rowSet[i].add(a[i][j]))) {
+                        return hasDuplicate = true;
+                    }
+                if (a[j][i] != 0)
+                    if (!(columnSet[j].add(a[j][i]))) {
+                        return hasDuplicate = true;
+                    }
 
             }
-        return true;
+        return hasDuplicate;
+    }
+
+
+
+    public static HashSet<Integer> complement(HashSet<Integer> s) {
+        HashSet<Integer> def =new HashSet<>(){{add(1);add(2);add(3);add(4);add(5);add(6);add(7);add(8);add(9);}};
+        for (int i:s){
+            def.remove(i);
+        }
+        return def;
     }
 
     public static void main(String[] args) {
@@ -105,8 +120,10 @@ public class Main {
 
 
         a = readArray();
-        boolean t=getSets();
-        System.out.println(t);
+        boolean hasDuplicate;
+        hasDuplicate=getSets();
+
+        System.out.println(hasDuplicate);
 //        b = transform(a);
 //             print339(b);
     }
