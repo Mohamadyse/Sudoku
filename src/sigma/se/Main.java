@@ -24,21 +24,28 @@ public class Main {
         int b[][][] = new int[3][3][9];
 
         for (int i = 0; i < 9; i++) {
+
             for (int j = 0; j < 9; j++) {
-
-                //        System.out.print(i + "," + j);
-
-                //        k=3* (int) (i/3)+ (int) j/3;
-                //     k=  (i-i%3)/3;
                 k = i - i % 3 + (j - j % 3) / 3;
                 b[i % 3][j % 3][k] = a[i][j];
-                // System.out.print( "("+k+ ")" + "  ");
 
             }
         }
+
         return b;
     }
 
+    public static HashSet<Integer>[] makeSetsOfArrays(int[][][] b) {
+
+        HashSet<Integer>[] arraysSet = new HashSet[9];
+        for (int k = 0; k < 9; k++) {
+            arraysSet[k] = new HashSet<>();
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    arraysSet[k].add(b[i][j][k]);
+        }
+        return arraysSet;
+    }
     /**
      * prints array whose size 3,3,9
      *
@@ -82,7 +89,10 @@ public class Main {
         }
     }
 
-
+    /**
+     * this method form sets of rows and columns
+     * @return
+     */
     public static boolean getSets() {
         boolean hasDuplicate = false;
         for (int i = 0; i < 9; i++) {
@@ -112,6 +122,12 @@ public class Main {
             def.remove(i);
         }
         return def;
+    }
+
+    public static HashSet<Integer> join(HashSet<Integer> s ,HashSet<Integer> d)
+    {
+        s.addAll(d);
+        return s;
     }
 
     public static void main(String[] args) {
