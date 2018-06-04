@@ -19,7 +19,7 @@ public class Main {
      * @param a: the array of 9,9 size
      * @return array of 3,3,9 size
      */
-    public static int[][][] transform(int[][] a) {
+  /*  public static int[][][] transform(int[][] a) {
         int k;
         int b[][][] = new int[3][3][9];
 
@@ -34,7 +34,7 @@ public class Main {
 
         return b;
     }
-
+*/
     public static HashSet<Integer>[] makeSetsOfArrays(int[][][] b) {
 
         HashSet<Integer>[] arraysSet = new HashSet[9];
@@ -49,7 +49,6 @@ public class Main {
 
     /**
      * prints array whose size 3,3,9
-     *
      * @param b
      */
     public static void print339(int[][][] b) {
@@ -65,6 +64,10 @@ public class Main {
         }
     }
 
+    /**
+     * it reads the matrix whose size 9x9
+     * @return array int [9],[9]
+     */
 
     public static int[][] readArray() {
         int a[][] = new int[9][9];
@@ -72,13 +75,18 @@ public class Main {
             for (int j = 0; j < 9; j++) {
                 a[i][j] = sc.nextInt();
             }
-            sc.nextLine();
+           if(sc.hasNextLine()) sc.nextLine();
         }
+
         return a;
     }
 
-
+    /**
+     * prints array whose size 3,3,9
+     * @param a
+     */
     public static void print99(int[][] a) {
+        System.out.println();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -130,6 +138,12 @@ public class Main {
 
     }
 
+    /**
+     * this method gets the set of all elements of small matrix 3X3 where the position i,j is located.
+     * @param i: the row
+     * @param j:the column
+     * @return hashset of the elements in matrix
+     */
     public static  HashSet<Integer>  getMatrixSet(int i, int j) {
         int k = i - i % 3 + (j - j % 3) / 3;
         int column = 3 * (k % 3);
@@ -144,7 +158,11 @@ public class Main {
         return matrixSet;
     }
 
-
+    /**
+     * this method return the elemnts that does not belong to the set s "negation"
+     * @param s the set that we want to get
+     * @return the complement set of the set s.
+     */
     public static HashSet<Integer> complement(HashSet<Integer> s) {
         HashSet<Integer> def = new HashSet<>() {{
             add(1);
@@ -163,21 +181,36 @@ public class Main {
         return def;
     }
 
+    /**
+     * this method get the unioin of two sets,
+     * @param s first set
+     * @param d secand set
+     * @return a union of two sets
+     */
     public static HashSet<Integer> join(HashSet<Integer> s, HashSet<Integer> d) {
         s.addAll(d);
         return s;
     }
 
+    /**
+     * this method returns the set of potential element that can be the answer according to Sudoku
+     *@param i: the row
+     * @param j:the column
+     */
     public static HashSet<Integer> answerSet(int i, int j){
       return complement ( join ( getMatrixSet( i,  j),getRowColumnSet( i,  j)));
-
     }
 
-
+    /**
+     * it parses all the sets of potential elements and when the set contains just one size it replace zero bye that element
+     * @param a the matrix that wanted to solve according to Sudoku
+     * k:  is the multiplication of all the elements in the matrix, when k doesnt equal zero then the matrix has been solved.
+     */
     public static void solve(int[][] a){
         boolean hasSolution=false;
         boolean hasDuplicate = matrixContainsDuplicates();
         int k = 0;
+        out:
         while (k == 0) {
             if (!hasDuplicate) {
                 k = 1;
@@ -188,7 +221,7 @@ public class Main {
                             if (temp.size() == 0) {
                                 System.out.println("\nFind another job ");
                                 hasDuplicate = true;
-                                break;
+                                break out;
                             }
                             if (temp.size() == 1) {
                                 hasSolution = true;
@@ -199,9 +232,11 @@ public class Main {
                             k *= a[i][j];
                         }
                     }
+
+
                     if(!hasSolution) {
-                        System.out.println("Non-unique");
-                        break;
+                        System.out.println("\nNon-unique ");
+                        break ;
                     }
             } else {
                 System.out.println("\nFind another job ");
@@ -219,15 +254,11 @@ public class Main {
         a = readArray();
         solve(a);
 
+        a = readArray();
+        solve(a);
 
-
-       
-
-//        hasDuplicate = getSets();
-
-//        System.out.println(hasDuplicate);
-//        b = transform(a);
-//             print339(b);
+        a = readArray();
+        solve(a);
     }
 
 
