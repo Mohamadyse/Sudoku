@@ -9,6 +9,8 @@ public class Main {
     public static int b[][][];
     public static HashSet<Integer> rowSet[] = new HashSet[9];
     public static HashSet<Integer> columnSet[] = new HashSet[9];
+   public static Scanner sc = new Scanner(System.in);
+
 
 
     /**
@@ -65,7 +67,6 @@ public class Main {
 
 
     public static int[][] readArray() {
-        Scanner sc = new Scanner(System.in);
         int a[][] = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -92,7 +93,7 @@ public class Main {
      *
      * @return
      */
-    public static boolean getSets() {
+    public static boolean matrixContainsDuplicates() {
         boolean hasDuplicate = false;
         for (int i = 0; i < 9; i++) {
             rowSet[i] = new HashSet<>();
@@ -113,15 +114,15 @@ public class Main {
         return hasDuplicate;
     }
 
-    public static HashSet<Integer> getSet(int i, int j) {
+    public static HashSet<Integer> getRowColumnSet(int i, int j) {
         rowSet[i] = new HashSet<>();
         columnSet[j] = new HashSet<>();
 
-        for (int k = 0; k < 9; k++) {
-            if (a[i][k] != 0)
-                rowSet[i].add(a[i][k]);
-            if (a[k][j] != 0)
-                columnSet[j].add(a[k][j]);
+        for (int l = 0; l < 9; l++) {
+            if (a[i][l] != 0)
+                rowSet[i].add(a[i][l]);
+            if (a[l][j] != 0)
+                columnSet[j].add(a[l][j]);
         }
 
         rowSet[i].addAll(columnSet[j]);
@@ -167,17 +168,64 @@ public class Main {
         return s;
     }
 
+    public static HashSet<Integer> answerSet(int i, int j){
+      return complement ( join ( getMatrixSet( i,  j),getRowColumnSet( i,  j)));
+
+    }
+
+
+    public static void solve(int[][] a){
+        boolean hasSolution=false;
+        boolean hasDuplicate = matrixContainsDuplicates();
+        int k = 0;
+        while (k == 0) {
+            if (!hasDuplicate) {
+                k = 1;
+                for (int i = 0; i < 9; i++)
+                    for (int j = 0; j < 9; j++) {
+                        if (a[i][j] == 0) {
+                            HashSet<Integer> temp = answerSet(i, j);
+                            if (temp.size() == 0) {
+                                System.out.println("\nFind another job ");
+                                hasDuplicate = true;
+                                break;
+                            }
+                            if (temp.size() == 1) {
+                                hasSolution = true;
+                                for (int theOnlyElement : temp) {
+                                    a[i][j] = theOnlyElement;
+                                }
+                            }
+                            k *= a[i][j];
+                        }
+                    }
+                    if(!hasSolution) {
+                        System.out.println("Non-unique");
+                        break;
+                    }
+            } else {
+                System.out.println("\nFind another job ");
+                break;
+            }
+        }
+        if( (!hasDuplicate)&&(hasSolution) ){
+            print99(a);
+        }
+    }
     public static void main(String[] args) {
         a = new int[9][9];
-        b = new int[3][3][9];
 
 
         a = readArray();
-        boolean hasDuplicate;
+        solve(a);
 
-        hasDuplicate = getSets();
 
-        System.out.println(hasDuplicate);
+
+       
+
+//        hasDuplicate = getSets();
+
+//        System.out.println(hasDuplicate);
 //        b = transform(a);
 //             print339(b);
     }
